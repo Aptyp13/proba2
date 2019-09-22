@@ -14,3 +14,12 @@ $( document ).ready(function() {
     });
     
 });
+
+
+(function($){//НАЗНАЧАЕТ $ ПЕРЕМЕННОЙ
+    $(document).ready(function(){
+        if( $(window).width() < 780 ) {//УСЛОВИЕ
+            $('*').removeClass('revealator-slideleft revealator-slideright revealator-slideup revealator-slidedown revealator-zoomin revealator-zoomout revealator-rotateright revealator-rotateleft');//НДАЛЯЕТ КЛАСЫ
+        }
+    });
+})(jQuery);
