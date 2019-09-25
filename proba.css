@@ -1174,7 +1174,7 @@ textarea {
     }
     .blog {
         display: inline-block;
-        padding-left: 20px;
+        padding-left: 0px;
     }
 
     .contact {
@@ -1233,6 +1233,16 @@ textarea {
         padding: 20px 10px;
         border-radius: 9px;
         text-align: left;
+    }
+
+    .plan-bg {
+        background: linear-gradient(175deg, #3949ab, #3949ab 78%, white 79%, white);
+        margin-right: 5px;
+    }
+
+    .dev-img img {
+        border-radius: 10px;
+        margin-left: -19px;
     }
 
 }
@@ -1396,7 +1406,7 @@ textarea {
     }
     .blog {
         display: inline-block;
-        padding-left: 20px;
+        padding-left: 0px;
     }
 
     .contact {
@@ -1456,4 +1466,15 @@ textarea {
         border-radius: 9px;
         text-align: left;
     }
+
+    .plan-bg {
+        background: linear-gradient(175deg, #3949ab, #3949ab 78%, white 79%, white);
+        margin-right: 5px;
+    }
+
+    .dev-img img {
+        border-radius: 10px;
+        margin-left: -19px;
+    }
+
 }

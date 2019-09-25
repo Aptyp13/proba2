@@ -23,3 +23,16 @@ $( document ).ready(function() {
         }
     });
 })(jQuery);
+
+
+$(document).ready(function() {// scroll
+    $('.click-menu-about').on('click', function(){
+        $(this).addClass('active');
+        $('html, body').animate({scrollTop:$('#about').position().top - 60}, 4000);
+    });
+
+    $('.click-menu-contuct').on('click', function(){
+        $(this).addClass('active');
+        $('html, body').animate({scrollTop:$('#contuct').position().top -0}, 4000);
+    });
+});
