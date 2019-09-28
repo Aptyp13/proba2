@@ -40,13 +40,13 @@
                         <a class="nav-link click-menu-about" href="#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#services">Servicing</a>
+                        <a class="nav-link click-menu-services" href="#services">Servicing</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link click-menu-about-nav" href="#">Portfolio</a>
+                        <a class="nav-link click-menu-portfolio" href="#portfolio">Portfolio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#blog">blog</a>
+                        <a class="nav-link click-menu-blog" href="#blog">blog</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link click-menu-contuct" href="#contuct">Contact us</a>
@@ -175,7 +175,7 @@
 
 
 
-    <section id="#portfolio">
+    <section id="portfolio">
         <div class="latest" id="#goToMe">
             <div class="container">
                 <h3 class="revealator-zoomin revealator-once">Latest Works</h3>
@@ -331,7 +331,7 @@
 
                                 <div class="developers">
                                     <div class="dev-img revealator-slideup revealator-delay2 revealator-once">
-                                        <img src="img/dev2.png">
+                                        <img src="img/dev2.png" alt="">
                                     </div>
                                     <p>Alexa Biru</p>
                                     <span>Office Director</span>
@@ -593,14 +593,14 @@
 
 
                                             <div class="form-group">
-                                                <p><input name="user_name" type="text" placeholder="Your Name" required></p>
-                                                <p><input name="user_email" type="text" placeholder="Your Email" required></p>
+                                                <p><input name="first_name" type="text" placeholder="Your Name" required></p>
+                                                <p><input name="email" type="text" placeholder="Your Email" required></p>
                                             </div>
                                             <div class="form_text">
-                                                <textarea name="comment" cols="40" rows="10" placeholder="Message"></textarea>
+                                                <textarea name="message" cols="40" rows="10" placeholder="Message"></textarea>
                                                 <div class="form_text_content">
                                                     <div class="btn-for">
-                                                    <button class="form-btn">SUBMIT</button>
+                                                    <button class="form-btn"><input type="submit" name="submit" value="Submit"></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -618,6 +618,10 @@
                             </div>
 
 </section>
+
+
+
+
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

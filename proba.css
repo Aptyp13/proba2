@@ -29,7 +29,7 @@
     display: inline-block;
     text-decoration: inherit;
     width: 1em;
-    margin-right: .2em;
+    margin-right: 0;
     text-align: center;
     /* opacity: .8; */
 
@@ -42,7 +42,7 @@
 
     /* Animation center compensation - margins should be symmetric */
     /* remove if not needed */
-    margin-left: .2em;
+    margin-left: 0;
 
     /* you can be more comfortable with increased icons size */
     /* font-size: 120%; */
@@ -1093,7 +1093,7 @@ textarea {
     }
 
     .info-block {
-        background-color: #d2fcf5;
+        background-color: #fff;  /*..............................................*/
         display: inline-block;
         padding-bottom: 0px;
     }
@@ -1174,7 +1174,7 @@ textarea {
     }
     .blog {
         display: inline-block;
-        padding-left: 0px;
+        padding-left: 0;
     }
 
     .contact {
@@ -1244,6 +1244,41 @@ textarea {
         border-radius: 10px;
         margin-left: -19px;
     }
+    .contact {
+        /* background: url(img/bgcon.png); */
+        /* background-size: 100%; */
+        /* background-repeat: no-repeat; */
+        text-align: center;
+        color: #fff;
+        height: 1620px;
+        margin-top: 50px;
+        background: #222;
+        display: inline-block;
+    }
+    .blog-bg {
+        text-align: center;
+        background-color: #e4fdf9;
+        padding-top: 110px;
+        display: none;/*//////////////////////////////////////////////////*/
+    }
+    .blog-content {
+        /* display: contents; */
+        display: inline-block;
+    }
+    .plan-info {
+        list-style: none;
+        padding: 50px 90px 150px 90px;
+        /* margin-bottom: 100px; */
+        background: #fff;
+        margin-bottom: -65px;
+        margin-right: 5px;
+    }
+    .out-info {
+        width: 96%;
+        /* float: left; */
+        margin: 10px 10px 10px 5px;
+        background-color: #fff;
+    }
 
 }
 
@@ -1268,10 +1303,9 @@ textarea {
     .content {
         background: url(img/photo.png);
         background-size: 100%;
-        background-repeat: no-repeat;
+        background-repeat: repeat;
         height: 325px;
         margin-top: 40px;
-        background: #222;
     }
 
     .btngroup {
@@ -1324,8 +1358,9 @@ textarea {
     .services {
         background-color: #fff;
         text-align: center;
-        height: 3320px;
         padding-top: 35px;
+        display: inline-block;
+        margin-top: 100px;
     }
     .services h2 {
         font-size: 30px;
@@ -1347,13 +1382,14 @@ textarea {
     .out-info {
         width: 96%;
         /* float: left; */
-        margin: 10px;
+        margin: 10px 10px 10px 5px;
         background-color: #fff;
     }
     .latest {
         padding-top: 80px;
         text-align: center;
         height: 1000px;
+        display: inline-block;
     }
 
     .pricing h3 {
@@ -1373,9 +1409,17 @@ textarea {
         padding-top: 170px;
         text-align: center;
         padding-bottom: 100px;
-        display: flex;
         background: #f0f1f1;
-        height: 2650px;
+        /*height: 2650px;*/
+        display: inline-block;
+    }
+    .plan-info {
+        list-style: none;
+        padding: 50px 90px 150px 90px;
+        /* margin-bottom: 100px; */
+        background: #fff;
+        margin-bottom: -65px;
+        margin-right: 5px;
     }
     .developers {
         padding-top: 70px;
@@ -1418,6 +1462,21 @@ textarea {
         height: 1620px;
         margin-top: 50px;
         background: #222;
+        display: inline-block;
+    }
+    .blog-bg {
+        text-align: center;
+        background-color: #e4fdf9;
+        padding-top: 110px;
+        display: inline-block;/*//////////////////////////////////////////////////*/
+    }
+    .blog-content {
+        /* display: contents; */
+        display: inline-block;
+    }
+
+    #blog {
+        display: inline-block;
     }
 
     .form-group input {
@@ -1475,6 +1534,40 @@ textarea {
     .dev-img img {
         border-radius: 10px;
         margin-left: -19px;
+    }
+    [class^="icon-"]:before, [class*=" icon-"]:before {
+        font-family: "fontello";
+        font-style: normal;
+        font-weight: normal;
+        speak: none;
+
+        display: inline-block;
+        text-decoration: inherit;
+        width: 1em;
+        margin-right: 5px;
+        text-align: center;
+        /* opacity: .8; */
+
+        /* For safety - reset parent styles, that can break glyph codes*/
+        font-variant: normal;
+        text-transform: none;
+
+        /* fix buttons height, for twitter bootstrap */
+        line-height: 1em;
+
+        /* Animation center compensation - margins should be symmetric */
+        /* remove if not needed */
+        margin-left: 5px;
+
+        /* you can be more comfortable with increased icons size */
+        /* font-size: 120%; */
+
+        /* Font smoothing. That was taken from TWBS */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Uncomment for 3D effect */
+        /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
     }
 
 }
