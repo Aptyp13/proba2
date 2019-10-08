@@ -12,10 +12,10 @@ if(isset($_POST['submit'])){
     $headers = "From:" . $from;
     $headers2 = "From:" . $to;
 
-    mail($to,$subject,$message,$headers);
+    mail($to,$subject,$message);
 // mail($from,$subject2,$message2,$headers2); // sends a copy of the message to the sender - Отключено!
     echo "Сообщение отправлено. Спасибо Вам " . $first_name . ", мы скоро свяжемся с Вами.";
-    echo "<br /><br /><a href='http://proba2.zzz.com.ua/index.php'>Вернуться на сайт.</a>";
+    echo "<br /><br /><a href='https://autoinstructor.zp.ua/junior/proba2/'>Вернуться на сайт.</a>";
 
 }
 

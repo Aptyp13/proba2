@@ -608,8 +608,43 @@ textarea {
     font-weight: 600;
 }
 
+.signup {
+    background: none;
+    text-align: center;
+    color: white;
+    display: grid;
+    width: 30%;
+    margin: auto;
 
+}
+.signup label {
+    font-size: 20px;
+}
+.signup input {
+    border: 1px solid #f90000;
+    border-radius: 5px;
+    opacity: .5;
+    font-size: 20px;
+    padding: 5px;
+}
+.formsignup button {
+    margin: 40px auto 20px;
+    width: 60%;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #f90000;
+}
+.content .pinf {
+    font-size: 30px;
+}
+.errormassage {
+    text-align: center;
+    color: red;
+    font-size: 30px;
 
+}
 
 
 

@@ -1,3 +1,36 @@
+<?php
+
+$dbc = mysqli_connect('localhost', 'root', '', 'proba');
+if(!isset($_COOKIE['user_id'])) {
+    if(isset($_POST['submit'])) {
+        $user_username = mysqli_real_escape_string($dbc, trim($_POST['username']));
+        $user_password = mysqli_real_escape_string($dbc, trim($_POST['password1']));
+        if(!empty($user_username) && !empty($user_password)) {
+            $query = "SELECT `user_id` , `username` FROM `probasignup` WHERE username = '$user_username' AND password = SHA('$user_password')";
+            $data = mysqli_query($dbc,$query);
+            if(mysqli_num_rows($data) == 1) {
+                //var_dump($data);
+                $row = mysqli_fetch_assoc($data);
+                //var_dump($row);
+                setcookie('user_id', $row['user_id'], time() + (60*60*24));
+                setcookie('username', $row['username'], time() + (60*60*24));
+                $home_url = 'http://' . $_SERVER['HTTP_HOST'] . '/proba2';
+                header('Location: '. $home_url);
+            }
+            else {
+                $message = 'Извините вы должны ввести правильное имя пользователя и пароль';
+
+            }
+        }
+        else {
+            $message = 'Извините вы должны заполнить поля правильно';
+        }
+    }
+}
+
+?>
+
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -63,6 +96,74 @@
     <div class="container">
         <h1 class="revealator-slideleft revealator-delay2 revealator-once">Web development project</h1>
         <p class="revealator-slideright revealator-delay2 revealator-once">Very suitable to support all web development projects</p>
+
+
+
+     <!--   <div class="container">
+            <div class="formsignup">
+                <form class="signup" method="post">
+                    <label for="username">Ваш login</label>
+                    <input type="text" name="username" id="username" required><br>
+                    <label for="password">Введите пароль</label>
+                    <input type="password" name="password1" id="password1" required><br>
+                    <label for="password">Введите пароль ещё раз</label>
+                    <input type="password" name="password2" id="password2" required>
+                    <button type="submit" name="submit">Регистрация</button>
+                </form>
+            </div>
+        </div>-->
+
+
+        <?php
+        if(empty($_COOKIE['username'])) {
+            ?>
+            <div class="formsignup">
+
+                <?php
+                if( $message ) {
+                    echo '<div class="errormassage">' . $message . '</div>';
+                }
+                ?>
+
+                <form class="signup" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <label for="username">Логин</label>
+                    <input type="text" name="username" id="username" required><br>
+                    <label for="password">Пароль</label>
+                    <input type="password" name="password1" id="password1" required><br>
+                    <input type="hidden" name="user_id" value="<?php echo $_COOKIE['user_id'] ?>">
+                    <button type="submit" name="submit">Вход</button>
+                    <a href="signup.php">Регистрация</a>
+                </form>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="profile">
+                <p><a href="myprofile.php">Мой профиль</a></p>
+                <p><a href="exit.php">Выйти (<?php echo $_COOKIE['username']; ?>)</a></p>
+            </div>
+            <?php
+        }
+        ?>
+
+
+
+
+
+
+
+
+
+
+        <?php
+        if(!empty($_COOKIE['username'])) {
+        ?>
+
+
+
+
+
+
         <div class="btngroup">
             <button class="btn-left revealator-slideup revealator-delay1 revealator-once">our services</button>
             <button class="btn-right revealator-slidedown revealator-delay1 revealator-once">hire is now</button>
@@ -76,9 +177,7 @@
 </div>
 
 
-
-
-<!-- 16:30-->
+    <!-- 16:30-->
 
 
     <!--16:50-->
@@ -86,7 +185,9 @@
         <div class="about">
             <div class="container">
                 <h2 class="revealator-zoomin revealator-delay2 revealator-once">About Us</h2>
-                <p class="aboutp revealator-zoomout revealator-delay2 revealator-once">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt<br>ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+                <p class="aboutp revealator-zoomout revealator-delay2 revealator-once">Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit, sed do eiusmod tempor incididunt<br>ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam,</p>
 
                 <div class="icons">
 
@@ -116,63 +217,67 @@
     </section>
 
 
- <!--17:20-->
+    <!--17:20-->
 
 
     <section id="services">
-    <div class="services">
-        <div class="container">
-            <h2 class="revealator-zoomout">Our Services</h2>
-            <p class="revealator-zoomin">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor<br>incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+        <div class="services">
+            <div class="container">
+                <h2 class="revealator-zoomout">Our Services</h2>
+                <p class="revealator-zoomin">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor<br>incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
                 <div class="info-block">
                     <div class="out-info revealator-slideleft revealator-delay1 revealator-once">
                         <i class="icon-mobile"></i>
                         <h3>Research</h3>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum iti atque corrupti quos.</p>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum iti atque corrupti quos.</p>
                         <button class="btn-services">Read More</button>
                     </div>
 
                     <div class="out-info revealator-slideleft revealator-delay3 revealator-once">
                         <i class="icon-mobile"></i>
                         <h3>Research</h3>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum iti atque corrupti quos.</p>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum iti atque corrupti quos.</p>
                         <button class="btn-services">Read More</button>
                     </div>
 
                     <div class="out-info revealator-slideleft revealator-delay6 revealator-once">
                         <i class="icon-mobile"></i>
                         <h3>Research</h3>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum iti atque corrupti quos.</p>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum iti atque corrupti quos.</p>
                         <button class="btn-services">Read More</button>
                     </div>
 
                     <div class="out-info revealator-slideright revealator-delay6 revealator-once">
                         <i class="icon-mobile"></i>
                         <h3>Research</h3>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum iti atque corrupti quos.</p>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum iti atque corrupti quos.</p>
                         <button class="btn-services">Read More</button>
                     </div>
 
                     <div class="out-info revealator-slideright revealator-delay3 revealator-once">
                         <i class="icon-mobile"></i>
                         <h3>Research</h3>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum iti atque corrupti quos.</p>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum iti atque corrupti quos.</p>
                         <button class="btn-services">Read More</button>
                     </div>
 
                     <div class="out-info revealator-slideright revealator-delay1 revealator-once">
                         <i class="icon-mobile"></i>
                         <h3>Research</h3>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum iti atque corrupti quos.</p>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum iti atque corrupti quos.</p>
                         <button class="btn-services">Read More</button>
                     </div>
                 </div>
+            </div>
         </div>
-    </div>
     </section>
-
-
-
 
 
     <section id="portfolio">
@@ -181,8 +286,6 @@
                 <h3 class="revealator-zoomin revealator-once">Latest Works</h3>
                 <p class="revealator-zoomout revealator-once"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi deserunt dolor earum et inventore iusto<br>
                     ipsum iste itaque iusto magni minus obcaecati perspiciatis provident </span></p>
-
-
 
 
                 <div id="options">
@@ -224,405 +327,405 @@
     </section>
 
 
+    <section class="price">
+        <div class="pricing">
+            <div class="container">
+                <h3 class="revealator-slideup revealator-delay2 revealator-once">Pricing Plan</h3>
+                <p class="revealator-slidedown revealator-delay2 revealator-once">Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam,</p>
 
-        <section class="price">
-            <div class="pricing">
-                <div class="container">
-                    <h3 class="revealator-slideup revealator-delay2 revealator-once">Pricing Plan</h3>
-                    <p class="revealator-slidedown revealator-delay2 revealator-once">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-
-                    <div class="pricing-plan revealator-zoomin revealator-delay1 revealator-once">
-                        <div class="plan">
-                            <div class="plan-bg">
+                <div class="pricing-plan revealator-zoomin revealator-delay1 revealator-once">
+                    <div class="plan">
+                        <div class="plan-bg">
                             <h5>Free Trail</h5>
                             <p><span><sup>$</sup>00</span> per month</p>
-                            </div>
-
-                                <ul class="plan-info">
-                                    <li>30 Free Trail</li>
-                                    <li>5 Free Projects<hr></li>
-                                    <li>PHP 5 Enabled<hr></li>
-                                    <li>24/7 Suports</li>
-                                    <li></li>
-                                </ul>
-                            <a href="#">Order Now</a>
                         </div>
+
+                        <ul class="plan-info">
+                            <li>30 Free Trail</li>
+                            <li>5 Free Projects
+                                <hr>
+                            </li>
+                            <li>PHP 5 Enabled
+                                <hr>
+                            </li>
+                            <li>24/7 Suports</li>
+                            <li></li>
+                        </ul>
+                        <a href="#">Order Now</a>
                     </div>
-
-
-                    <div class="pricing-plan revealator-zoomout revealator-delay2 revealator-once">
-                        <div class="plan">
-                            <div class="plan-bg">
-                                <h5>Basik</h5>
-                                <p><span><sup>$</sup>50</span> per month</p>
-                            </div>
-
-                            <ul class="plan-info">
-                                <li>30 Free Trail</li>
-                                <li>5 Free Projects<hr></li>
-                                <li>PHP 5 Enabled<hr></li>
-                                <li>24/7 Suports</li>
-                                <li></li>
-                            </ul>
-                            <a href="#">Order Now</a>
-                        </div>
-                    </div>
-
-
-                    <div class="pricing-plan revealator-zoomin revealator-delay1 revealator-once">
-                        <div class="plan">
-                            <div class="plan-bg">
-                                <h5>Ultimates</h5>
-                                <p><span><sup>$</sup>99</span> per month</p>
-                            </div>
-
-                            <ul class="plan-info">
-                                <li>30 Free Trail</li>
-                                <li>5 Free Projects<hr></li>
-                                <li>PHP 5 Enabled<hr></li>
-                                <li>24/7 Suports</li>
-                                <li></li>
-                            </ul>
-                            <a href="#">Order Now</a>
-                        </div>
-                    </div>
-
-
                 </div>
+
+
+                <div class="pricing-plan revealator-zoomout revealator-delay2 revealator-once">
+                    <div class="plan">
+                        <div class="plan-bg">
+                            <h5>Basik</h5>
+                            <p><span><sup>$</sup>50</span> per month</p>
+                        </div>
+
+                        <ul class="plan-info">
+                            <li>30 Free Trail</li>
+                            <li>5 Free Projects
+                                <hr>
+                            </li>
+                            <li>PHP 5 Enabled
+                                <hr>
+                            </li>
+                            <li>24/7 Suports</li>
+                            <li></li>
+                        </ul>
+                        <a href="#">Order Now</a>
+                    </div>
+                </div>
+
+
+                <div class="pricing-plan revealator-zoomin revealator-delay1 revealator-once">
+                    <div class="plan">
+                        <div class="plan-bg">
+                            <h5>Ultimates</h5>
+                            <p><span><sup>$</sup>99</span> per month</p>
+                        </div>
+
+                        <ul class="plan-info">
+                            <li>30 Free Trail</li>
+                            <li>5 Free Projects
+                                <hr>
+                            </li>
+                            <li>PHP 5 Enabled
+                                <hr>
+                            </li>
+                            <li>24/7 Suports</li>
+                            <li></li>
+                        </ul>
+                        <a href="#">Order Now</a>
+                    </div>
+                </div>
+
 
             </div>
-        </section>
+
+        </div>
+    </section>
 
 
-
-            <section class="team">
-                <div class="team-member">
-                    <div class="container">
-                        <h3>Our Team</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-
-
-
-                        <div class="slider">
+    <section class="team">
+        <div class="team-member">
+            <div class="container">
+                <h3>Our Team</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
 
 
-                            <input type="radio" id="i1" name="images" checked/>
-                            <input type="radio" id="i2" name="images" />
-                            <input type="radio" id="i3" name="images" />
-                            <input type="radio" id="i4" name="images"  />
+                <div class="slider">
 
-                            <div class="slide_img" id="one">
 
-                                <img src="">
-                                <div class="developers">
-                                    <div class="dev-img revealator-slidedown revealator-delay2 revealator-once">
-                                        <img src="img/dev1.png">
-                                    </div>
-                                    <p>Joch Doe</p>
-                                    <span>General Manager</span>
-                                    <div class="dev-icon">
-                                        <a href="https://www.facebook.com"> <i class="icon-facebook"></i></a>
-                                        <a href="https://twitter.com"> <i class="icon-twitter"></i></a>
-                                        <a href="https://twitter.com"><i class="icon-comment"></i></a>
-                                        <a href="https://twitter.com"> <i class="icon-soccer-ball"></i></a>
-                                    </div>
+                    <input type="radio" id="i1" name="images" checked/>
+                    <input type="radio" id="i2" name="images"/>
+                    <input type="radio" id="i3" name="images"/>
+                    <input type="radio" id="i4" name="images"/>
+
+                    <div class="slide_img" id="one">
+
+                        <img src="">
+                        <div class="developers">
+                            <div class="dev-img revealator-slidedown revealator-delay2 revealator-once">
+                                <img src="img/dev1.png">
+                            </div>
+                            <p>Joch Doe</p>
+                            <span>General Manager</span>
+                            <div class="dev-icon">
+                                <a href="https://www.facebook.com"> <i class="icon-facebook"></i></a>
+                                <a href="https://twitter.com"> <i class="icon-twitter"></i></a>
+                                <a href="https://twitter.com"><i class="icon-comment"></i></a>
+                                <a href="https://twitter.com"> <i class="icon-soccer-ball"></i></a>
+                            </div>
+                        </div>
+
+
+                        <div class="developers">
+                            <div class="dev-img revealator-slideup revealator-delay2 revealator-once">
+                                <img src="img/dev2.png" alt="">
+                            </div>
+                            <p>Alexa Biru</p>
+                            <span>Office Director</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="developers">
+                            <div class="dev-img revealator-slidedown revealator-delay2 revealator-once">
+                                <img src="img/dev3.png">
+                            </div>
+                            <p>Ronobir Sing</p>
+                            <span>Admin</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="slide_img" id="two">
+
+
+                        <div class="developers">
+                            <div class="dev-img">
+                                <img src="img/mem1.png">
+                            </div>
+                            <p>Pacik Vnature</p>
+                            <span>Debiloid</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="developers">
+                            <div class="dev-img">
+                                <img src="img/mem2.png">
+                            </div>
+                            <p>Chetkiy Paca</p>
+                            <span>Alkash</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="developers">
+                            <div class="dev-img">
+                                <img src="img/mem3.png">
+                            </div>
+                            <p>Petya Poroh</p>
+                            <span>Depupat</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="slide_img" id="three">
+
+
+                        <div class="developers">
+                            <div class="dev-img">
+                                <img src="img/mem1.png">
+                            </div>
+                            <p>Joch Doe</p>
+                            <span>General Manager</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="developers">
+                            <div class="dev-img">
+                                <img src="img/dev2.png">
+                            </div>
+                            <p>Joch Doe</p>
+                            <span>General Manager</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="developers">
+                            <div class="dev-img">
+                                <img src="img/mem3.png">
+                            </div>
+                            <p>Joch Doe</p>
+                            <span>General Manager</span>
+                            <div class="dev-icon">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-twitter"></i>
+                                <i class="icon-comment"></i>
+                                <i class="icon-soccer-ball"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="nav_slide">
+                        <label for="i1" class="dots" id="dot1"></label>
+                        <label for="i2" class="dots" id="dot2"></label>
+                        <label for="i3" class="dots" id="dot3"></label>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <section id="blog">
+        <div class="blog-bg">
+            <div class="bloo">
+                <div class="container">
+                    <h3>Blog</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+                    <div class="blog-content">
+                        <div class="col-lg-6">
+                            <div class="blog-img">
+                                <img src="img/seo.png">
+                            </div>
+
+                            <div class="blog-text">
+                                <h5>SEO Quis Vestibulum</h5>
+                                <div class="inline">
+                                    <i class="icon-calendar">14.07.2017</i>
+
+                                    <i class="icon-doc">Development</i>
+
                                 </div>
-
-
-                                <div class="developers">
-                                    <div class="dev-img revealator-slideup revealator-delay2 revealator-once">
-                                        <img src="img/dev2.png" alt="">
-                                    </div>
-                                    <p>Alexa Biru</p>
-                                    <span>Office Director</span>
-                                    <div class="dev-icon">
-                                    <i class="icon-facebook"></i>
-                                    <i class="icon-twitter"></i>
-                                    <i class="icon-comment"></i>
-                                    <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="developers">
-                                    <div class="dev-img revealator-slidedown revealator-delay2 revealator-once">
-                                        <img src="img/dev3.png">
-                                    </div>
-                                    <p>Ronobir Sing</p>
-                                    <span>Admin</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
-
-
-
-
+                                <p>Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat...</p>
 
                             </div>
 
-                            <div class="slide_img" id="two">
+                            <div class="blog-img">
+                                <img src="img/apple.png">
+                            </div>
+                        </div>
 
+                        <div class="col-lg-6">
 
-                                <div class="developers">
-                                    <div class="dev-img">
-                                        <img src="img/mem1.png">
-                                    </div>
-                                    <p>Pacik Vnature</p>
-                                    <span>Debiloid</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
+                            <div class="blog-text">
+                                <h5>SEO Quis Vestibulum</h5>
+                                <div class="inline">
+                                    <i class="icon-calendar">14.07.2017</i>
+
+                                    <i class="icon-doc">Development</i>
+
                                 </div>
+                                <p>Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat...</p>
 
-
-                                <div class="developers">
-                                    <div class="dev-img">
-                                        <img src="img/mem2.png">
-                                    </div>
-                                    <p>Chetkiy Paca</p>
-                                    <span>Alkash</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="developers">
-                                    <div class="dev-img">
-                                        <img src="img/mem3.png">
-                                    </div>
-                                    <p>Petya Poroh</p>
-                                    <span>Depupat</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
                             </div>
 
-
-
-
-
-
-
-
-
-
-
-                            <div class="slide_img" id="three">
-
-
-                                <div class="developers">
-                                    <div class="dev-img">
-                                        <img src="img/mem1.png">
-                                    </div>
-                                    <p>Joch Doe</p>
-                                    <span>General Manager</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
-
-
-                                <div class="developers">
-                                    <div class="dev-img">
-                                        <img src="img/dev2.png">
-                                    </div>
-                                    <p>Joch Doe</p>
-                                    <span>General Manager</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="developers">
-                                    <div class="dev-img">
-                                        <img src="img/mem3.png">
-                                    </div>
-                                    <p>Joch Doe</p>
-                                    <span>General Manager</span>
-                                    <div class="dev-icon">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-twitter"></i>
-                                        <i class="icon-comment"></i>
-                                        <i class="icon-soccer-ball"></i>
-                                    </div>
-                                </div>
+                            <div class="blog-img">
+                                <img src="img/imac.png">
                             </div>
 
+                            <div class="blog-text">
+                                <h5>SEO Quis Vestibulum</h5>
+                                <div class="inline">
+                                    <i class="icon-calendar">14.07.2017</i>
 
+                                    <i class="icon-doc">Development</i>
 
-
-                            <div id="nav_slide">
-                                <label for="i1" class="dots" id="dot1"></label>
-                                <label for="i2" class="dots" id="dot2"></label>
-                                <label for="i3" class="dots" id="dot3"></label>
+                                </div>
+                                <p>Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat...</p>
 
                             </div>
 
                         </div>
 
+                    </div>
+                    <button class="view">More View</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
+    <section id="contuct">
+        <div class="contact" id="#contuct">
+            <div class="container">
+                <h3>Contuct Us</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+
+                <div class="con-icon">
+                    <div class="contact-info">
+                        <i class="icon-location"></i>
+                        <p>Nobinagar savar,Dhaka Bangladesh</p>
+                    </div>
+
+                    <div class="contact-info">
+                        <i class="icon-phone"></i>
+                        <p>+8801743331996<br>
+                            +8801928737807</p>
+                    </div>
+
+                    <div class="contact-info">
+                        <i class="icon-mail"></i>
+                        <p>quickmasud@gmail.com<br>
+                            quickmasud@yahoo.com</p>
                     </div>
                 </div>
-            </section>
 
 
-                <section id="blog">
-                    <div class="blog-bg">
-                        <div class="bloo">
-                        <div class="container">
-                            <h3>Blog</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-                            <div class="blog-content">
-                                <div class="col-lg-6">
-                                    <div class="blog-img">
-                                        <img src="img/seo.png">
-                                    </div>
+                <form action="send.php" method="post">
+                    <div class="container">
+                        <form method="post" action="">
 
-                                    <div class="blog-text">
-                                        <h5>SEO Quis Vestibulum</h5>
-                                            <div class="inline">
-                                                <i class="icon-calendar">14.07.2017</i>
 
-                                                <i class="icon-doc">Development</i>
-
-                                            </div>
-                                        <p>Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
-
-                                    </div>
-
-                                    <div class="blog-img">
-                                        <img src="img/apple.png">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-
-                                    <div class="blog-text">
-                                        <h5>SEO Quis Vestibulum</h5>
-                                        <div class="inline">
-                                            <i class="icon-calendar">14.07.2017</i>
-
-                                            <i class="icon-doc">Development</i>
-
-                                        </div>
-                                        <p>Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
-
-                                    </div>
-
-                                    <div class="blog-img">
-                                        <img src="img/imac.png">
-                                    </div>
-
-                                    <div class="blog-text">
-                                        <h5>SEO Quis Vestibulum</h5>
-                                        <div class="inline">
-                                            <i class="icon-calendar">14.07.2017</i>
-
-                                            <i class="icon-doc">Development</i>
-
-                                        </div>
-                                        <p>Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
-
-                                    </div>
-
-                                </div>
-
+                            <div class="form-group">
+                                <p><input name="first_name" type="text" placeholder="Your Name" required></p>
+                                <p><input name="email" type="text" placeholder="Your Email" required></p>
                             </div>
-                            <button class="view">More View</button>
-                        </div>
-                        </div>
+                            <div class="form_text">
+                                <textarea name="message" cols="40" rows="10" placeholder="Message"></textarea>
+                                <div class="form_text_content">
+                                    <div class="btn-for">
+                                        <button class="form-btn"><input type="submit" name="submit" value="Submit">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </section>
+                </form>
 
 
-                    <section id="contuct">
-                        <div class="contact" id="#contuct">
-                            <div class="container">
-                                <h3>Contuct Us</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br>ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+            </div>
+        </div>
+    </section>
 
-                                <div class="con-icon">
-                                    <div class="contact-info">
-                                        <i class="icon-location"></i>
-                                        <p>Nobinagar savar,Dhaka Bangladesh</p>
-                                    </div>
-
-                                    <div class="contact-info">
-                                        <i class="icon-phone"></i>
-                                        <p>+8801743331996<br>
-                                            +8801928737807</p>
-                                    </div>
-
-                                    <div class="contact-info">
-                                        <i class="icon-mail"></i>
-                                        <p>quickmasud@gmail.com<br>
-                                            quickmasud@yahoo.com</p>
-                                    </div>
-                                </div>
-
-
-                                <form action="send.php" method="post">
-                                    <div class="container">
-                                        <form method="post" action="">
-
-
-                                            <div class="form-group">
-                                                <p><input name="first_name" type="text" placeholder="Your Name" required></p>
-                                                <p><input name="email" type="text" placeholder="Your Email" required></p>
-                                            </div>
-                                            <div class="form_text">
-                                                <textarea name="message" cols="40" rows="10" placeholder="Message"></textarea>
-                                                <div class="form_text_content">
-                                                    <div class="btn-for">
-                                                    <button class="form-btn"><input type="submit" name="submit" value="Submit"></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </form>
-
-
-                            </div>
-                        </div>
-                    </section>
-
-                            <div class="footer">
-                                <p>All rights Reserved © 2017</p>
-                            </div>
+    <div class="footer">
+        <p>All rights Reserved © 2017</p>
+    </div>
 
 </section>
 
 
-
-
-
+<?php
+}
+?>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -630,5 +733,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script src="js/isotope.pkgd.min.js"></script>
-<script src="js/main.js"></script></body>
+<script src="js/main.js"></script>
+</body>
 </html>
